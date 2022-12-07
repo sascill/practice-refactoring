@@ -34,22 +34,22 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         { style: "currency", currency: "USD", minimumFractionDigits: 2}).format
 
 
-    function amountFor(play: { name: string; type: string }, perf: { playId: string; audience: number }) { //값이 바뀌지 않는 변수는 매개변수로 전달
+    function amountFor(play: { name: string; type: string }, aPerformance: { playId: string; audience: number }) { //명확한 이름으로 변경
         //인터페이스에 있는 타입을 사용 할 순 없나?
         let result = 0 //명확한 이름으로 변경
 
         switch (play.type) {
             case "tragedy": {
                 result = 40000
-                if (perf.audience > 30) {
-                    result += 1000 * (perf.audience - 30)
+                if (aPerformance.audience > 30) {
+                    result += 1000 * (aPerformance.audience - 30)
                 }
             }
                 break;
             case "comedy": {
                 result = 30000
-                if (perf.audience > 20) {
-                    result += 10000 + 500 * (perf.audience - 20)
+                if (aPerformance.audience > 20) {
+                    result += 10000 + 500 * (aPerformance.audience - 20)
                 }
             }
                 break;
