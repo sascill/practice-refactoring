@@ -38,7 +38,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         //인터페이스에 있는 타입을 사용 할 순 없나?
         let result = 0 //명확한 이름으로 변경
 
-        switch (play.type) {
+        switch (playFor(aPerformance).type) { //play 를 playFor() 호출로 변경
             case "tragedy": {
                 result = 40000
                 if (aPerformance.audience > 30) {
@@ -54,7 +54,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
             }
                 break;
             default:
-                throw new Error(`알 수 없는 장르: ${play.type}`)
+                throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`) //play 를 playFor() 호출로 변경
         }
         return result; // 함수안에서 값이 바뀌는 변수를 반환
     }
