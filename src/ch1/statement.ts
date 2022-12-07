@@ -59,8 +59,12 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         return result; // 함수안에서 값이 바뀌는 변수를 반환
     }
 
+    function playFor(perf: { playId: string; audience: number }) {
+        return plays[perf.playId];
+    }
+
     for (let perf of invoice.performances) {
-        const play = plays[perf.playId]
+        const play = playFor(perf) //우변을 함수로 추출.
         let thisAmount = 0
         thisAmount = amountFor(play, perf);
         //포인트를 적립
