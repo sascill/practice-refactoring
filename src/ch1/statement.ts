@@ -82,7 +82,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         totalAmount += amountFor(perf)
     }
 
-    result += `총액: ${usd(totalAmount/100)}\n` //임시 변수 였던 format 을 함수 호출로 대체
+    result += `총액: ${usd(totalAmount)}\n` //임시 변수 였던 format 을 함수 호출로 대체
     result += `적립 포인트: ${volumeCredits}점\n`
 
     return result
