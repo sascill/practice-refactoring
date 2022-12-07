@@ -36,27 +36,27 @@ function statement(invoice: Iinvoice, plays: Iplays) {
 
     function amountFor(play: { name: string; type: string }, perf: { playId: string; audience: number }) { //값이 바뀌지 않는 변수는 매개변수로 전달
         //인터페이스에 있는 타입을 사용 할 순 없나?
-        let thisAmount = 0 //변수 초기화
+        let result = 0 //명확한 이름으로 변경
 
         switch (play.type) {
             case "tragedy": {
-                thisAmount = 40000
+                result = 40000
                 if (perf.audience > 30) {
-                    thisAmount += 1000 * (perf.audience - 30)
+                    result += 1000 * (perf.audience - 30)
                 }
             }
                 break;
             case "comedy": {
-                thisAmount = 30000
+                result = 30000
                 if (perf.audience > 20) {
-                    thisAmount += 10000 + 500 * (perf.audience - 20)
+                    result += 10000 + 500 * (perf.audience - 20)
                 }
             }
                 break;
             default:
                 throw new Error(`알 수 없는 장르: ${play.type}`)
         }
-        return thisAmount; // 함수안에서 값이 바뀌는 변수를 반환
+        return result; // 함수안에서 값이 바뀌는 변수를 반환
     }
 
     for (let perf of invoice.performances) {
