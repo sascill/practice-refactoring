@@ -33,7 +33,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
 
     function usd(aNumber: number) {
         return new Intl.NumberFormat("es-US",
-            {style: "currency", currency: "USD", minimumFractionDigits: 2}).format(aNumber)
+            {style: "currency", currency: "USD", minimumFractionDigits: 2}).format(aNumber/100)
     }
 
     function amountFor(aPerformance: { playId: string; audience: number }) {
@@ -78,7 +78,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         //포인트를 적립
         volumeCredits += volumeCreditsFor(perf)
         //청구 내역 출력
-        result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
+        result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
         totalAmount += amountFor(perf)
     }
 
