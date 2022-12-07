@@ -64,16 +64,14 @@ function statement(invoice: Iinvoice, plays: Iplays) {
     }
 
     for (let perf of invoice.performances) {
-        const play = playFor(perf) //우변을 함수로 추출.
         let thisAmount = 0
-        thisAmount = amountFor(play, perf);
+        thisAmount = amountFor(playFor(perf), perf); // playFor 변수를 인라인화
         //포인트를 적립
         volumeCredits += Math.max(perf.audience - 30, 0)
         //희극 관객 5명마다 추가 포인트 제공
-        if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5)
-
+        if ("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5) // playFor 변수를 인라인화
         //청구 내역 출력
-        result += `${play.name}: ${format(thisAmount/100)} (${perf.audience}석)\n`
+        result += `${playFor(perf).name}: ${format(thisAmount/100)} (${perf.audience}석)\n` // playFor 변수를 인라인화
         totalAmount += thisAmount
     }
 
