@@ -31,7 +31,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
     let volumeCredits = 0
     let result = `청구 내역 (고객명: ${invoice.customer})\n`
 
-    function format(aNumber: number) {
+    function usd(aNumber: number) {
         return new Intl.NumberFormat("es-US",
             {style: "currency", currency: "USD", minimumFractionDigits: 2}).format(aNumber)
     }
@@ -78,11 +78,11 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         //포인트를 적립
         volumeCredits += volumeCreditsFor(perf)
         //청구 내역 출력
-        result += `${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
+        result += `${playFor(perf).name}: ${usd(amountFor(perf)/100)} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
         totalAmount += amountFor(perf)
     }
 
-    result += `총액: ${format(totalAmount/100)}\n` //임시 변수 였던 format 을 함수 호출로 대체
+    result += `총액: ${usd(totalAmount/100)}\n` //임시 변수 였던 format 을 함수 호출로 대체
     result += `적립 포인트: ${volumeCredits}점\n`
 
     return result
