@@ -88,10 +88,9 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
         totalAmount += amountFor(perf)
     }
-    let volumeCredits = totalVolumeCredits();
 
     result += `총액: ${usd(totalAmount)}\n` //임시 변수 였던 format 을 함수 호출로 대체
-    result += `적립 포인트: ${volumeCredits}점\n`
+    result += `적립 포인트: ${totalVolumeCredits()}점\n`
 
     return result
 }
