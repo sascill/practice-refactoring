@@ -28,7 +28,6 @@ interface Iplays {
 
 function statement(invoice: Iinvoice, plays: Iplays) {
     let totalAmount = 0
-    let volumeCredits = 0
     let result = `청구 내역 (고객명: ${invoice.customer})\n`
 
     function usd(aNumber: number) {
@@ -75,11 +74,13 @@ function statement(invoice: Iinvoice, plays: Iplays) {
     }
 
     for (let perf of invoice.performances) {
-        //포인트를 적립
-        volumeCredits += volumeCreditsFor(perf)
         //청구 내역 출력
         result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
         totalAmount += amountFor(perf)
+    }
+    let volumeCredits = 0 //변수 선언부를 반복문 바로 앞으로 이동
+    for (let perf of invoice.performances) { //값 누적 로직을 별도 for 문으로 분리
+        volumeCredits += volumeCreditsFor(perf)
     }
 
     result += `총액: ${usd(totalAmount)}\n` //임시 변수 였던 format 을 함수 호출로 대체
