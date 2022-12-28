@@ -26,8 +26,17 @@ interface Iplays {
     }
 }
 
-function statement(invoice: Iinvoice, plays: Iplays) {
-    let result = `청구 내역 (고객명: ${invoice.customer})\n`
+interface IstatementData {
+    customer?: string,
+}
+
+function statement(invoice:Iinvoice, plays: Iplays) {
+    const statementData: IstatementData = {}
+    statementData.customer = invoice.customer
+    return renderPlainText(statementData, invoice, plays)
+}
+function renderPlainText(data: IstatementData, invoice: Iinvoice, plays: Iplays) {
+    let result = `청구 내역 (고객명: ${data.customer})\n`
 
     for (let perf of invoice.performances) {
         //청구 내역 출력
@@ -97,8 +106,6 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         }
         return result
     }
-
-
 }
 
 module.exports = statement
