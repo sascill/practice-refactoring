@@ -26,10 +26,18 @@ interface Iplays {
     }
 }
 
-
-
 function statement(invoice: Iinvoice, plays: Iplays) {
     let result = `청구 내역 (고객명: ${invoice.customer})\n`
+
+    for (let perf of invoice.performances) {
+        //청구 내역 출력
+        result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
+    }
+
+    result += `총액: ${usd(totalAmount())}\n`
+    result += `적립 포인트: ${totalVolumeCredits()}점\n`
+
+    return result
 
     function usd(aNumber: number) {
         return new Intl.NumberFormat("es-US",
@@ -90,15 +98,7 @@ function statement(invoice: Iinvoice, plays: Iplays) {
         return result
     }
 
-    for (let perf of invoice.performances) {
-        //청구 내역 출력
-        result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
-    }
 
-    result += `총액: ${usd(totalAmount())}\n`
-    result += `적립 포인트: ${totalVolumeCredits()}점\n`
-
-    return result
 }
 
 module.exports = statement
