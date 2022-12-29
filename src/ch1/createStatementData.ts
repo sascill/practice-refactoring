@@ -1,4 +1,5 @@
 import IPerformance, { IInvoice, IPlays } from './interfaces'
+import PerformanceCalculator from './PerformanceCalculator'
 
 export default function createStatementData(invoice: IInvoice, plays: IPlays) {
     const statementData: IInvoice = {
@@ -27,6 +28,7 @@ export default function createStatementData(invoice: IInvoice, plays: IPlays) {
     return statementData
 
     function enrichPerformance(aPerformance: IPerformance) {
+        const calculator = new PerformanceCalculator(aPerformance)
         const result = Object.assign({}, aPerformance)
         result.play = playFor(result)
         result.amount = amountFor(result)
