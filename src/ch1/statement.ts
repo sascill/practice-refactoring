@@ -38,6 +38,10 @@ interface IPlays {
 }
 
 function statement(invoice:IInvoice, plays: IPlays) {
+    return renderPlainText(createStatementData(invoice, plays))
+}
+
+function createStatementData(invoice: IInvoice, plays: IPlays) {
     const statementData: IInvoice = {
         customer: '',
         performances: [
@@ -60,7 +64,8 @@ function statement(invoice:IInvoice, plays: IPlays) {
     statementData.performances = invoice.performances.map(enrichPerformance)
     statementData.totalAmount = totalAmount(statementData)
     statementData.totalVolumeCredits = totalVolumeCredits(statementData)
-    return renderPlainText(statementData, plays)
+
+    return statementData
 
     function enrichPerformance(aPerformance: IPerformance) {
         const result = Object.assign({}, aPerformance)
@@ -118,7 +123,7 @@ function statement(invoice:IInvoice, plays: IPlays) {
     }
 }
 
-function renderPlainText(data: IInvoice, plays: IPlays) {
+function renderPlainText(data: IInvoice) {
     let result = `청구 내역 (고객명: ${data.customer})\n`
 
     for (let perf of data.performances) {
