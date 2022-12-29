@@ -108,19 +108,13 @@ function statement(invoice:IInvoice, plays: IPlays) {
     }
 
     function totalVolumeCredits(data: IInvoice): number {
-        let result = 0
-        for (let perf of data.performances) { //값 누적 로직을 별도 for 문으로 분리
-            result += perf.volumeCredits
-        }
-        return result
+        return data.performances
+            .reduce((total, p) => total + p.volumeCredits, 0)
     }
 
     function totalAmount(data: IInvoice): number {
-        let result = 0
-        for (let perf of data.performances) {
-            result += perf.amount;
-        }
-        return result
+        return data.performances
+            .reduce((total, p) => total + p.amount, 0)
     }
 }
 
