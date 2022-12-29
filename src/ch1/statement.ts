@@ -13,8 +13,9 @@ interface IPerformance {
 
 interface IInvoice {
     customer: string,
+    totalAmount: number,
+    totalVolumeCredits: number,
     performances: IPerformance[]
-
 }
 
 interface IPlays {
@@ -37,7 +38,7 @@ interface IPlays {
 }
 
 function statement(invoice:IInvoice, plays: IPlays) {
-    const statementData = {
+    const statementData: IInvoice = {
         customer: '',
         performances: [
             {
@@ -50,11 +51,15 @@ function statement(invoice:IInvoice, plays: IPlays) {
                     type: ''
                 }
             }
-        ]
+        ],
+        totalAmount: 0,
+        totalVolumeCredits: 0
     }
 
     statementData.customer = invoice.customer
     statementData.performances = invoice.performances.map(enrichPerformance)
+    statementData.totalAmount = totalAmount(statementData)
+    statementData.totalVolumeCredits = totalVolumeCredits(statementData)
     return renderPlainText(statementData, plays)
 
     function enrichPerformance(aPerformance: IPerformance) {
@@ -101,6 +106,22 @@ function statement(invoice:IInvoice, plays: IPlays) {
             result += Math.floor(aPerformance.audience / 5)
         return result
     }
+
+    function totalVolumeCredits(data: IInvoice): number {
+        let result = 0
+        for (let perf of data.performances) { //값 누적 로직을 별도 for 문으로 분리
+            result += perf.volumeCredits
+        }
+        return result
+    }
+
+    function totalAmount(data: IInvoice): number {
+        let result = 0
+        for (let perf of data.performances) {
+            result += perf.amount;
+        }
+        return result
+    }
 }
 
 function renderPlainText(data: IInvoice, plays: IPlays) {
@@ -111,8 +132,8 @@ function renderPlainText(data: IInvoice, plays: IPlays) {
         result += `${perf.play.name}: ${usd(perf.amount)} (${perf.audience}석)\n` // thisAmount 변수를 인라인화
     }
 
-    result += `총액: ${usd(totalAmount())}\n`
-    result += `적립 포인트: ${totalVolumeCredits()}점\n`
+    result += `총액: ${usd(data.totalAmount)}\n`
+    result += `적립 포인트: ${data.totalVolumeCredits}점\n`
 
     return result
 
@@ -122,22 +143,6 @@ function renderPlainText(data: IInvoice, plays: IPlays) {
     }
 
 
-
-    function totalVolumeCredits(): number {
-        let result = 0
-        for (let perf of data.performances) { //값 누적 로직을 별도 for 문으로 분리
-            result += perf.volumeCredits
-        }
-        return result
-    }
-
-    function totalAmount(): number {
-        let result = 0
-        for (let perf of data.performances) {
-            result += perf.amount;
-        }
-        return result
-    }
 }
 
 module.exports = statement
