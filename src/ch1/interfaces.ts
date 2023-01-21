@@ -17,21 +17,7 @@ export interface IInvoice {
 }
 
 export interface IPlays {
-    [key: string]: {
-        name: string,
-        type: string
-    }
-    hamlet: {
-        name: string
-        type: string
-    },
-    as_like: {
-        name: string
-        type: string
-    },
-    othello: {
-        name: string
-        type: string
-    }
+    name: string,
+    type: string
 }
 
